@@ -1,4 +1,5 @@
 import { ValidationErrorItem } from "joi";
+import { v4 as uuid } from "uuid";
 import Repository from "../interfaces/IRepository";
 import { Post, PostValidationShema } from "./Model";
 
@@ -20,6 +21,7 @@ class PostRepository implements Repository<Post> {
         return index !== -1;
     }
     createOne(object: Post): true | ValidationErrorItem[] {
+        object.id = uuid();
         
         const validationResult = PostValidationShema.validate(object);
 
