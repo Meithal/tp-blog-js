@@ -10,7 +10,7 @@ class PostRepository implements Repository<Post> {
     getAll(): Post[] {
         return this.posts;
     }
-    
+
     getOne(id: string): Post | null {
         return this.posts.find(p => p.id === id) || null;
     }
@@ -40,6 +40,11 @@ class PostRepository implements Repository<Post> {
         const index = this.posts.findIndex(p => p.id === object.id);
 
         if(index === -1) {
+            return false;
+        }
+
+        const validationResult = PostValidationShema.validate(object);
+        if(validationResult.error) {
             return false;
         }
 

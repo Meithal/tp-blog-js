@@ -1,4 +1,6 @@
 class ConfigService {
+    JWT_SECRET: string;
+
     MONGO_DB: string;
     MONGO_USER: string;
     MONGO_PASSWORD: string;
@@ -6,6 +8,7 @@ class ConfigService {
     MONGO_PORT: string;
 
     constructor() {
+        this.JWT_SECRET = process.env.JWT_STRING ?? "secret";
 
         this.MONGO_DB = process.env.MONGO_DB ?? "blog";
         this.MONGO_HOST = process.env.MONGO_HOST ?? "localhost";
