@@ -11,7 +11,7 @@ postController.get('/', (req: Request, res: Response) => {
 postController.get('/:id', (req: Request, res: Response) => {
     const post = req.body;
 
-    res.status(204).send(post);
+    res.status(200).send(PostRepository.getOne(req.params.id));
 })
 
 postController.post('/', (req: Request, res: Response) => {
@@ -21,12 +21,52 @@ postController.post('/', (req: Request, res: Response) => {
     const posted = PostRepository.createOne(body);
 
     if(posted === true) {
-        res.status(204).json({response: body});
+        res.status(201).json({response: body});
+        return;
     }
 
-    res.status(400).json({"res": "bad request", "errors": posted});
-    
+    res.status(400).json({"res": "bad request", "errors": posted});  
 })
+
+postController.post('/:id/vote_up', (req, res) => {
+    const post = PostRepository.getOne(req.params.id);
+
+    if(post === null) {
+        res.status(404).json("post not found");
+        return;
+    }
+
+    post.nb_rates_up++;
+
+    const updated = PostRepository.updateOne(post);
+
+    if(!updated) {
+        res.status(404).json("post not found");
+        return;
+    } else {
+        res.status(201).json(post);
+    }
+});
+
+postController.post('/:id/vote_down', (req, res) => {
+    const post = PostRepository.getOne(req.params.id);
+
+    if(post === null) {
+        res.status(404).json("post not found from get");
+        return;
+    }
+
+    post.nb_rates_down++;
+
+    const updated = PostRepository.updateOne(post);
+
+    if(!updated) {
+        res.status(404).json("post not found from update");
+        return;
+    } else {
+        res.status(201).json(post);
+    }
+});
 
 
 export default postController;
