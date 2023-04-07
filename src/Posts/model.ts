@@ -2,7 +2,7 @@ import Joi from "joi";
 import mongoose from "../services/mongooseService";
 import { InferSchemaType } from "mongoose";
 
-interface IPost {
+export interface Post {
     id: string;
     title: string;
     content: string;
@@ -18,13 +18,13 @@ export const PostValidationShema = Joi.object({
     nb_rates_down: Joi.number().integer().positive().required(),
 });
 
-export const PostSchema = new mongoose.Schema<IPost>({
-    id: {type: String, required: true, unique: true},
-    title: {type: String, required: true},
-    content: {type: String, required: true},
-    nb_rates_up: {type: Number, required: true},
-    nb_rates_down: {type: Number, required: true},
-});
+// export const PostSchema = new mongoose.Schema<IPost>({
+//     id: {type: String, required: true, unique: true},
+//     title: {type: String, required: true},
+//     content: {type: String, required: true},
+//     nb_rates_up: {type: Number, required: true},
+//     nb_rates_down: {type: Number, required: true},
+// });
 
-export type Post = InferSchemaType<typeof PostSchema>;
-export const PostModel = mongoose.model('Post', PostSchema);
+// export type Post = InferSchemaType<typeof PostSchema>;
+// export const PostModel = mongoose.model('Post', PostSchema);
